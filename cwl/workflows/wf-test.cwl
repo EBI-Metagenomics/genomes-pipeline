@@ -40,16 +40,16 @@ outputs:
     pickValue: first_non_null
 
   many_genomes:
-    class: Directory?
+    type: Directory[]?
     outputSource: drep_subwf/many_genomes
   one_genome:
-    class: Directory?
+    type: Directory[]?
     outputSource: drep_subwf/one_genome
   mash_folder:
-    class: Directory?
+    type: File[]?
     outputSource: drep_subwf/mash_folder
   weights_file:
-    class: File?
+    type: File?
     outputSource: drep_subwf/weights_file
 
 steps:
@@ -79,10 +79,12 @@ steps:
     out:
       - checkm_csv
 
-# ---------- dRep
+# ---------- dRep + split
   drep_subwf:
     run: sub-wf/drep-subwf.cwl
+    when: $(!inputs.flag)
     in:
+      flag: download/flag_no-data
       genomes_folder:
         source:
           - download/downloaded_folder_ena
