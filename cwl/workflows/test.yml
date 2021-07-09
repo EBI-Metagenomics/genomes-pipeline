@@ -1,7 +1,7 @@
 download_from: ENA  # ENA or NCBI
 infile:
   class: File
-  path: ../input_example/input_ena.txt    # file containing a list of GenBank accessions, one accession per line
+  path: ../../input_example/input_ena.txt    # file containing a list of GenBank accessions, one accession per line
 directory_name: ENA  # directory name to download files to
 unzip: true
 
