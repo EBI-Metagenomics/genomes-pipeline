@@ -17,7 +17,7 @@ inputs:
 
 outputs:
   downloaded_folder:
-    type: Directory
+    type: Directory?
     outputSource:
       - download_from_ena/downloaded_files
       - download_from_ncbi/downloaded_files
