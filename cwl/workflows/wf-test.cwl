@@ -55,7 +55,8 @@ steps:
       directory_name: directory_name
       unzip: unzip
     out:
-      - downloaded_folder
+      - downloaded_folder_ena
+      - downloaded_folder_ncbi
       - stats_ena
       - flag_no-data
 
