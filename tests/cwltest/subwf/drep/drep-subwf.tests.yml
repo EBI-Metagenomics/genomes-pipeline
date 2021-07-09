@@ -37,8 +37,7 @@
     weights_file:
       basename: extra_weight_table.txt
       class: File
-      checksum: sha1$31dcab80e6caf7485cd305b71c2d9fe8192686cc
-      size: 44
+
 
 - job: many.yml
   tool: ../../../../cwl/workflows/sub-wf/drep-subwf.cwl
@@ -93,8 +92,6 @@
     weights_file:
       basename: extra_weight_table.txt
       class: File
-      checksum: sha1$e485773dd7e5c2405744ed21afdd99b59820bc7a
-      size: 88
 
 - job: mixed.yml
   tool: ../../../../cwl/workflows/sub-wf/drep-subwf.cwl
@@ -147,11 +144,9 @@
     mash_folder:
       - basename: 1_1_mash.tsv
         class: File
-        checksum: sha1$8d2cd0d1152b005c5c1a9eeb9a7be653eec92de4
         size: 252
       - basename: 2_1_mash.tsv
         class: File
-        checksum: sha1$8888c4c9787b646c84062643ccbeaaeb65122f53
         size: 548
     one_genome:
       - basename: '3_0'
@@ -164,5 +159,4 @@
     weights_file:
       basename: extra_weight_table.txt
       class: File
-      checksum: sha1$7d695e187afd5efc9249186a4d24f28bda21ac83
-      size: 132
+
