@@ -55,3 +55,27 @@
       class: File
       checksum: sha1$6e91f1a87feb77b080011f2b9d7f4f89cd692faf
       size: 261
+
+- job: ncbi.yml
+  tool: ../../../../cwl/workflows/sub-wf/fetch_data.cwl
+  short_name: fetch_data.cwl
+  doc: "fetch NCBI"
+  output:
+    downloaded_folder:
+      basename: ncbi-test
+      class: Directory
+      listing:
+        - class: File
+          basename: GCA_009108045.fa
+          checksum: sha1$a3a53e7ab87df46eff81e29307b79a1ab443aa85
+          size: 5467894
+        - class: File
+          basename: GCA_009148315.fa
+          checksum: sha1$702446b3421eb81da119ab10ca7547c4ac2b0763
+          size: 2254838
+    flag_no-data: null
+    stats_download:
+      basename: checkm_quality.csv
+      class: File
+      checksum: sha1$0df4a91c7435b9efda4dba5eb271833b092ff1ab
+      size: 122

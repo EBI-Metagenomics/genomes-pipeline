@@ -23,12 +23,9 @@ outputs:
       - download_from_ncbi/downloaded_files
     pickValue: first_non_null
 
-  stats_download:
-    type: File
-    outputSource:
-      - download_from_ena/stats_file
-      - checkm_subwf/checkm_csv
-    pickValue: first_non_null
+  stats_ena:
+    type: File?
+    outputSource: download_from_ena/stats_file
 
   flag_no-data:
     type: File?
@@ -58,16 +55,6 @@ steps:
       directory: directory_name
       unzip: unzip
     out: [ downloaded_files ]
-
-# ----------- << checkm >> -----------
-  checkm_subwf:
-    run: checkm-subwf.cwl
-    when: $(inputs.type == 'NCBI')
-    in:
-      type: download_from
-      genomes_folder: download_from_ncbi/downloaded_files
-    out:
-      - checkm_csv
 
   touch_flag:
     run: ../../utils/touch_file.cwl
