@@ -67,6 +67,6 @@ steps:
     in:
       type: download_from
       flag: download/flag_no-data
-      genomes_folder: download_from_ncbi/downloaded_files
+      genomes_folder: download/downloaded_folder_ncbi
     out:
       - checkm_csv
