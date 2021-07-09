@@ -16,12 +16,13 @@ inputs:
   unzip: boolean?
 
 outputs:
-  downloaded_folder:
+  downloaded_folder_ena:
     type: Directory?
-    outputSource:
-      - download_from_ena/downloaded_files
-      - download_from_ncbi/downloaded_files
-    pickValue: first_non_null
+    outputSource: download_from_ena/downloaded_files
+
+  downloaded_folder_ncbi:
+    type: Directory?
+    outputSource: download_from_ncbi/downloaded_files
 
   stats_ena:
     type: File?
@@ -30,7 +31,6 @@ outputs:
   flag_no-data:
     type: File?
     outputSource: touch_flag/created_file
-
 
 steps:
 
