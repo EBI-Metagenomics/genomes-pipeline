@@ -63,7 +63,7 @@ steps:
 # ----------- << checkm for NCBI>> -----------
   checkm_subwf:
     run: sub-wf/checkm-subwf.cwl
-    when: $(inputs.type == 'NCBI' and !flag)
+    when: $(inputs.type == 'NCBI' and !inputs.flag)
     in:
       type: download_from
       flag: download/flag_no-data
