@@ -1,0 +1,6 @@
+threads: 8
+gffs:
+  - class: File
+    path:
+
+panaroo_outfolder: panaroo-output

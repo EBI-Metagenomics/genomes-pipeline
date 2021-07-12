@@ -3,7 +3,7 @@
 - job: prokka-CAJPIO01.yml
   tool: ../../../../cwl/tools/prokka/prokka.cwl
   short_name: prokka.cwl
-  doc: prokka CAJPIO01
+  doc: prokka CAJPIO01 (one-genome cluster)
   output:
     faa:
       basename: CAJPIO01.faa
@@ -77,3 +77,9 @@
           checksum: sha1$ba6efd4a04910fbcf3c1991a8695c4806a080244
           class: File
           size: 290641
+
+- job: prokka-GUT_GENOME000028.yml
+  tool: ../../../../cwl/tools/prokka/prokka.cwl
+  short_name: prokka.cwl
+  doc: prokka GUT_GENOME000028 (many-genome cluster)
+  output:
