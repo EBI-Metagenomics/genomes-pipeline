@@ -1,6 +1,6 @@
 threads: 8
 gffs:
   - class: File
-    path:
+    path: ../../../../prokka_GUT_GENOME000028/GUT_GENOME000028.gff
 
 panaroo_outfolder: panaroo-output

@@ -83,3 +83,66 @@
   short_name: prokka.cwl
   doc: prokka GUT_GENOME000028 (many-genome cluster)
   output:
+    faa:
+      basename: GUT_GENOME000028.faa
+      class: File
+      checksum: sha1$7a0613d1ea11778fe64443236e157f673f267655
+      size: 1856983
+    gff:
+      basename: GUT_GENOME000028.gff
+      class: File
+      checksum: sha1$97a8bf68b7922e77ebad02027b81ee507ac8106b
+      size: 6485237
+    outdir:
+      basename: prokka_GUT_GENOME000028
+      class: Directory
+      listing:
+        - class: File
+          basename: GUT_GENOME000028.sqn
+          checksum: sha1$6a73a0e57cc9b15931b535fd84e7d8b8b2df3015
+          size: 14765021
+        - class: File
+          basename: GUT_GENOME000028.txt
+          checksum: sha1$aafa51ad8356f35db35632816353fbcd522bcc98
+          size: 87
+        - class: File
+          basename: GUT_GENOME000028.gbk
+          checksum: sha1$9e9b9b539cda70cccbf65246fb771b7cd67ad1b6
+          size: 10811094
+        - class: File
+          basename: GUT_GENOME000028.tbl
+          checksum: sha1$9eb96a5514e06ab6248fddaa3386081fd2abadc9
+          size: 815621
+        - class: File
+          basename: GUT_GENOME000028.err
+          checksum: sha1$7a06ea9eb3df04d07f2610a0a3aefcc1a9b3a4e7
+          size: 1701706
+        - class: File
+          basename: GUT_GENOME000028.fna
+          checksum: sha1$875d9b1eb2e3c8402fbbb8c0bbb212312295dc74
+          size: 5416384
+        - class: File
+          basename: GUT_GENOME000028.ffn
+          checksum: sha1$80108ef5134c18e132aaccdce220311ee37e389c
+          size: 5128588
+        - class: File
+          basename: GUT_GENOME000028.faa
+          checksum: sha1$7a0613d1ea11778fe64443236e157f673f267655
+          size: 1856983
+        - class: File
+          basename: GUT_GENOME000028.log
+          checksum: sha1$25eea9b2356c1f7e04e47ba89f15e56d85d77df9
+          size: 41034
+        - class: File
+          basename: GUT_GENOME000028.fsa
+          checksum: sha1$b9f93485708b52f311361538535a2f892f0f2698
+          size: 5419192
+        - class: File
+          basename: GUT_GENOME000028.gff
+          checksum: sha1$97a8bf68b7922e77ebad02027b81ee507ac8106b
+          size: 6485237
+        - class: File
+          basename: GUT_GENOME000028.tsv
+          checksum: sha1$ae72b28f9f5dc2656ebb3f10a67c446cdb46cc33
+          size: 304999
+
