@@ -9,12 +9,20 @@
     files:
       - basename: "GUT_GENOME001921.fa"
         class: File
-        checksum: "sha1$a72ecc575ecacadf50d4081e073d20ee511bedb8"
+        checksum: sha1$a72ecc575ecacadf50d4081e073d20ee511bedb8
         size: 2369043
       - basename: "GUT_GENOME000465.fa"
         class: File
-        checksum: "sha1$90e3b84fe64029a3c556d90a8cebf3fb11e4bb01"
+        checksum: sha1$90e3b84fe64029a3c556d90a8cebf3fb11e4bb01
         size: 5484822
+      - basename: "test-one.csv"
+        checksum: sha1$ba148e7ed51c64157c72bc1253eaa9a9e226d170
+        class: File
+        size: 92
+      - basename: "checkm.out"
+        checksum: sha1$e924b1a72296c30f17b411d1c1d5c06813b18792
+        class: File
+        size: 164
 
 # rename contigs
 - job: rename_fasta.yml
