@@ -4,4 +4,4 @@ fasta_file:
 outputname: test-eggnog
 data_dir:
   class: Directory
-  path: /home/ubuntu/db/
+  path: /run/user/1000/db
