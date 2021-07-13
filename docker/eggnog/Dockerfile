@@ -8,6 +8,17 @@ LABEL license="GPLv3"
 
 RUN conda install -c bioconda eggnog-mapper && conda clean -afy
 
+ENV VERSION=2.1.3
+
+# install diamond
+ENV VERSION_DIAMOND=0.9.31
+RUN wget https://github.com/bbuchfink/diamond/archive/v$VERSION_DIAMOND.tar.gz && \
+    tar -xzf v$VERSION_DIAMOND.tar.gz && \
+    cd diamond-$VERSION_DIAMOND && bash build_simple.sh
+ENV PATH="/diamond-$VERSION_DIAMOND:${PATH}"
+
+RUN ln -s /diamond-$VERSION_DIAMOND/diamond /eggnog-mapper-$VERSION/bin/diamond
+
 # Workdir
 RUN mkdir /data
 WORKDIR /data
