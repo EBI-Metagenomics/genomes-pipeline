@@ -15,7 +15,8 @@ ENV VERSION_DIAMOND=0.9.31
 RUN apk add --no-cache bash git build-base zlib-dev python
 
 # install diamond
-RUN wget https://github.com/bbuchfink/diamond/archive/v$VERSION_DIAMOND.tar.gz && \
+
+RUN wget https://github.com/bbuchfink/diamond/archive/refs/tags/v$VERSION_DIAMOND.tar.gz  && \
     tar -xzf v$VERSION_DIAMOND.tar.gz && \
     cd diamond-$VERSION_DIAMOND && bash build_simple.sh
 
