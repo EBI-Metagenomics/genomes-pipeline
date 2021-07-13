@@ -1,27 +1,33 @@
-FROM continuumio/miniconda3
+FROM alpine:3.7
 
-LABEL software="eggnog-mapper"
-LABEL software.version="2.1.3"
-LABEL description="EggNOG-mapper is a tool for fast functional annotation of novel sequences. It uses precomputed orthologous groups and phylogenies from the eggNOG database (http://eggnog5.embl.de) to transfer functional information from fine-grained orthologs only."
-LABEL website="https://github.com/eggnogdb/eggnog-mapper"
-LABEL license="GPLv3"
+LABEL Maintainer="Ekaterina Sakharova <kates@ebi.ac.uk>"
 
-RUN conda install -c bioconda eggnog-mapper && conda clean -afy
+########################################################################
+# Dockerfile Version:   19.03.1
+# Software:             eggNOG
+# Software Version:     2.1.3
+# Description:          functional annotation of novel sequences
+########################################################################
 
 ENV VERSION=2.1.3
+ENV VERSION_DIAMOND=0.9.31
+
+RUN apk add --no-cache bash git build-base zlib-dev python
 
 # install diamond
-ENV VERSION_DIAMOND=0.9.31
 RUN wget https://github.com/bbuchfink/diamond/archive/v$VERSION_DIAMOND.tar.gz && \
     tar -xzf v$VERSION_DIAMOND.tar.gz && \
     cd diamond-$VERSION_DIAMOND && bash build_simple.sh
+
 ENV PATH="/diamond-$VERSION_DIAMOND:${PATH}"
 
-RUN ln -s /diamond-$VERSION_DIAMOND/diamond /eggnog-mapper-$VERSION/bin/diamond
+# eggnog
+RUN wget https://github.com/eggnogdb/eggnog-mapper/archive/$VERSION.tar.gz && \
+    tar -xzf $VERSION.tar.gz
 
-# Workdir
-RUN mkdir /data
-WORKDIR /data
+ENV PATH="/eggnog-mapper-$VERSION/eggnogmapper:/eggnog-mapper-$VERSION:${PATH}"
 
-# Entrypoint
-CMD ["/bin/bash", "-c"]
+RUN rm /eggnog-mapper-$VERSION/bin/diamond && \
+    ln -s /diamond-$VERSION_DIAMOND/diamond /eggnog-mapper-$VERSION/bin/diamond
+
+CMD ["emapper.py"]
