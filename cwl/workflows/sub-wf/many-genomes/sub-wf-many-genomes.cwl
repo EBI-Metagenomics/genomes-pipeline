@@ -18,6 +18,7 @@ inputs:
   db_diamond_eggnog: [string?, File?]
   db_eggnog: [string?, File?]
   data_dir_eggnog: [string?, Directory?]
+  start_number_mgyg: int?
 
 outputs:
   prokka_faa-s:
@@ -41,6 +42,9 @@ outputs:
     type: Directory
     outputSource: return_mash_dir/out
 
+  mgyg_genomes:
+    type: File[]
+    outputSource: assign_mgyg/renamed_genomes
 
 steps:
   preparation:
@@ -49,11 +53,21 @@ steps:
       dir: cluster
     out: [files]
 
+  assign_mgyg:
+    run: ../../../utils/rename_fasta.cwl
+    in:
+      genomes: preparation/files  # File[]
+      prefix: { default: MGYG }
+      start_number: start_number_mgyg
+      output_filename: { default: names }
+      output_dirname: { default: renamed_genomes_many }
+    out: [ renamed_genomes ]  # File[] (would be list of >1 genomes)
+
   prokka:
     run: ../../../tools/prokka/prokka.cwl
     scatter: fa_file
     in:
-      fa_file: preparation/files
+      fa_file: assign_mgyg/renamed_genomes
       outdirname: {default: prokka_output }
     out: [ gff, faa, outdir ]
 
@@ -77,7 +91,6 @@ steps:
   IPS:
     run: ../../chunking-subwf-IPS.cwl
     in:
-      flag: gunc/complete-flag
       faa: translate/converted_faa
       chunk_size: chunk_size_IPS
       InterProScan_databases: InterProScan_databases
@@ -122,7 +135,7 @@ steps:
   create_cluster_genomes:
     run: ../../../utils/return_directory.cwl
     in:
-      list: preparation/files
+      list: assign_mgyg/renamed_genomes
       dir_name:
         source: cluster
         valueFrom: cluster_$(self.basename)/genomes

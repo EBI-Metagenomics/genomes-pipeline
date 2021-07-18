@@ -174,13 +174,19 @@ steps:
       - one_genome_prokka
       - one_genome_genomes
       - mmseqs_output
+      - mgyg_genomes_all
 
 # ----------- << GTDB - Tk >> -----------
+
+  wrap_mgyg_folder:
+  # wrap
+
+
   gtdbtk:
     when: $(inputs.skip_flag !== 'skip')
     run: ../tools/gtdbtk/gtdbtk.cwl
     in:
       skip_flag: skip_gtdbtk_step
-      drep_folder: drep_subwf/dereplicated_genomes
+      drep_folder: clusters_annotation/mgyg_genomes_all  # conflict should be Dir
       gtdb_outfolder: { default: 'gtdb-tk_output' }
     out: [ gtdbtk_folder ]

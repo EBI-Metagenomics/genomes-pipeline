@@ -21,10 +21,10 @@ baseCommand: [ rename_fasta.py ]
 
 inputs:
   genomes:
-    type: Directory
+    type: File[]
     inputBinding:
       position: 1
-      prefix: -d
+      prefix: -l
 
   prefix:
     type: string
@@ -33,13 +33,13 @@ inputs:
       prefix: -p
 
   start_number:
-    type: int
+    type: int?
     inputBinding:
       position: 3
       prefix: -i
 
   output_filename:
-    type: string
+    type: string?
     inputBinding:
       position: 4
       prefix: -t
@@ -57,7 +57,7 @@ outputs:
       glob: $(inputs.output_filename)
 
   renamed_genomes:
-    type: Directory
+    type: File[]
     outputBinding:
-      glob: $(inputs.output_dirname)
+      glob: $(inputs.output_dirname)/$(inputs.prefix)*
 

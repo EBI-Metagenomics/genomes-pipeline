@@ -16,13 +16,19 @@ inputs:
   mmseqs_limit_c: float         # common
   mmseqs_limit_i: float[]       # common
   csv: File
+
   gunc_db_path: File
+
   InterProScan_databases: [string, Directory]
   chunk_size_IPS: int
+
   chunk_size_eggnog: int
   db_diamond_eggnog: [string?, File?]
   db_eggnog: [string?, File?]
   data_dir_eggnog: [string?, Directory?]
+
+  start_number_mgyg_many: int?
+  start_number_mgyg_one: int?
 
 outputs:
   mash_folder:
@@ -56,10 +62,21 @@ outputs:
   one_genome_genomes:
     type: Directory[]?
     outputSource: process_one_genome/cluster_folder_genome
+  one_genome_renamed_genomes:
+    type: File[]
+    outputSource: process_one_genome/mgyg_genomes
 
   mmseqs_output:
     type: Directory
     outputSource: mmseqs/mmseqs_dir
+
+  mgyg_genomes_all:
+    type: File[]?
+    outputSource:
+      source:
+        - process_many_genomes/mgyg_genomes
+        - process_one_genome/mgyg_genomes
+      linkMerge: merge_flattened
 
 steps:
 
@@ -76,6 +93,7 @@ steps:
       db_diamond_eggnog: db_diamond_eggnog
       db_eggnog: db_eggnog
       data_dir_eggnog: data_dir_eggnog
+      start_number_mgyg: start_number_mgyg_many
     out:
       - mash_folder
       - many_genomes
@@ -83,6 +101,7 @@ steps:
       - many_genomes_prokka
       - prokka_seqs
       - many_genomes_genomes
+      - mgyg_genomes
 
 # ----------- << one genome cluster processing >> -----------
   process_one_genome:
@@ -98,12 +117,13 @@ steps:
       db_diamond_eggnog: db_diamond_eggnog
       db_eggnog: db_eggnog
       data_dir_eggnog: data_dir_eggnog
+      start_number_mgyg: start_number_mgyg_one
     out:
       - prokka_faa-s
       - cluster_folder
       - cluster_folder_prokka
       - cluster_folder_genome
-
+      - mgyg_genomes
 
 # ----------- << mmseqs subwf>> -----------
 

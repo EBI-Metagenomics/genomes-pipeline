@@ -21,6 +21,7 @@ inputs:
   db_diamond_eggnog: [string?, File?]
   db_eggnog: [string?, File?]
   data_dir_eggnog: [string?, Directory?]
+  start_number_mgyg: int?
 
 outputs:
 
@@ -37,6 +38,9 @@ outputs:
   cluster_folder_genome:
     type: Directory[]
     outputSource: process_one_genome/cluster_folder_genome
+  mgyg_genomes:
+    type: File[]?
+    outputSource: process_one_genome/mgyg_genomes
 
 steps:
   process_one_genome:
@@ -52,8 +56,10 @@ steps:
       db_diamond_eggnog: db_diamond_eggnog
       db_eggnog: db_eggnog
       data_dir_eggnog: data_dir_eggnog
+      start_number_mgyg: start_number_mgyg
     out:
       - prokka_faa-s  # File
       - cluster_folder  # Dir
       - cluster_folder_prokka  # Dir
       - cluster_folder_genome  # Dir
+      - mgyg_genomes  # File[]

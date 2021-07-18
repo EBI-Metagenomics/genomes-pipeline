@@ -47,6 +47,10 @@ outputs:
   many_genomes_genomes:
     type: Directory[]
     outputSource: process_many_genomes/genomes_folder
+  mgyg_genomes:
+    type: File[]?
+    outputSource: process_many_genomes/mgyg_genomes
+
 
 steps:
 
@@ -70,4 +74,4 @@ steps:
       - prokka_folder  # Dir[]
       - genomes_folder  # Dir
       - mash_folder  # Dir
-
+      - mgyg_genomes

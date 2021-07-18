@@ -22,6 +22,8 @@ inputs:
   db_eggnog: [string?, File?]
   data_dir_eggnog: [string?, Directory?]
 
+  start_number_mgyg: int?
+
 outputs:
 
   prokka_faa-s:
@@ -37,13 +39,16 @@ outputs:
   cluster_folder_genome:
     type: Directory?
     outputSource: create_cluster_genomes/out
+  mgyg_genomes:
+    type: File[]?
+    outputSource: assign_mgyg/renamed_genomes
 
 steps:
   preparation:
     run: ../../../utils/get_files_from_dir.cwl
     in:
       dir: cluster
-    out: [files]
+    out: [ files ]  #File[]
 
   gunc:
     run: gunc-subwf.cwl
@@ -57,13 +62,28 @@ steps:
       - complete-flag
       - empty-flag
 
+# if GUNC passed - initial genome has good quality and should be processed
+# otherwise: all next steps will be skipped and genome doesn't participate in further analysis
+
+  assign_mgyg:
+    when: $(Boolean(inputs.flag))
+    run: ../../../utils/rename_fasta.cwl
+    in:
+      flag: gunc/complete-flag
+      genomes: preparation/files  # File[]
+      prefix: { default: MGYG }
+      start_number: start_number_mgyg
+      output_filename: { default: names }
+      output_dirname: { default: renamed_genomes_one }
+    out: [ renamed_genomes ]  # File[] (would be list of 1 genome)
+
   prokka:
     when: $(Boolean(inputs.flag))
     run: ../../../tools/prokka/prokka.cwl
     in:
       flag: gunc/complete-flag
       fa_file:
-        source: preparation/files
+        source: assign_mgyg/renamed_genomes
         valueFrom: $(self[0])
       outdirname: { default: prokka_output }
     out: [ faa, outdir ]
@@ -110,7 +130,7 @@ steps:
     run: ../../../utils/return_directory.cwl
     in:
       flag: gunc/complete-flag
-      list: preparation/files
+      list: assign_mgyg/renamed_genomes
       dir_name:
         source: cluster
         valueFrom: cluster_$(self.basename)/genome

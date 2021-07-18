@@ -8,9 +8,13 @@ import shutil
 logging.basicConfig(level=logging.INFO)
 
 
-def main(fasta_file_directory, prefix, index, cluster_file, table_file, num_digits, rename_deflines, outdir=None):
+def main(prefix, index, cluster_file, table_file, num_digits, rename_deflines, outdir=None, fasta_list=None,
+		 fasta_file_directory=None):
 	names = dict()  # matches old and new names
-	files = os.listdir(fasta_file_directory)
+	if fasta_list:
+		files = fasta_list
+	else:
+		files = os.listdir(fasta_file_directory)
 	logging.info('Renaming files...')
 	if cluster_file:
 		assert os.path.isfile(cluster_file), 'Provided cluster information file does not exist'
@@ -19,8 +23,10 @@ def main(fasta_file_directory, prefix, index, cluster_file, table_file, num_digi
 			new_name = '{}{}{}.fa'.format(prefix, '0' * (num_digits - len(str(index))), str(index))
 			names[file] = new_name
 			if outdir:
-				rename_to_outdir(file, new_name, input_dir=fasta_file_directory, output_dir=outdir)
+				# CWL mode
+				rename_to_outdir(file, new_name, output_dir=outdir)
 			else:
+				# renaming directly in input directory
 				rename_fasta(file, new_name, fasta_file_directory, rename_deflines)
 				try:
 					os.remove(os.path.join(fasta_file_directory, file))
@@ -49,9 +55,9 @@ def write_fasta(old_path, new_path, new_name):
 	file_out.close()
 
 
-def rename_to_outdir(file, new_name, input_dir, output_dir):
+def rename_to_outdir(file, new_name, output_dir):
 	new_path = os.path.join(output_dir, new_name)
-	old_path = os.path.join(input_dir, file)
+	old_path = file
 	if not os.path.exists(output_dir):
 		os.mkdir(output_dir)
 	write_fasta(old_path, new_path, new_name)
@@ -89,7 +95,8 @@ def rename_clusters(names, cluster_file):
 def parse_args():
 	parser = argparse.ArgumentParser(description='Rename multifasta files, cluster information file and create a table '
 												 'matching old and new names')
-	parser.add_argument('-d', dest='fasta_file_directory', required=True, help='Input directory containing FASTA files')
+	parser.add_argument('-d', dest='fasta_file_directory', required=False, help='Input directory containing FASTA files')
+	parser.add_argument('-l', dest='fasta_file_list', required=False, help='List of FASTA files', nargs='+')
 	parser.add_argument('-p', dest='prefix', required=True, help='Header prefix')
 	parser.add_argument('-i', dest='index', type=int, default=1,
 						help='Number to start naming at (will be in the file name following prefix; default = 1')
@@ -111,6 +118,19 @@ def parse_args():
 
 if __name__ == '__main__':
 	args = parse_args()
-	main(args.fasta_file_directory, args.prefix, args.index, args.cluster_file, args.table_file, args.num_digits,
-		 args.rename_deflines, outdir=args.outputdir)
+	# set *fasta_file_list* and *outputdir* for CWL
+	# otherwise provide *fasta_file_directory* and ignore *outputdir*
+	if args.fasta_file_list and args.outputdir:
+		print('CWL mode')
+	elif args.fasta_file_directory and args.outputdir:
+		print('Error: do not provide -o argument')
+		exit(1)
+	elif args.fasta_file_directory:
+		print('Renaming would be done in input folder')
+	else:
+		print('Error: No necessary arguments')
+		exit(1)
+	main(prefix=args.prefix, index=args.index, cluster_file=args.cluster_file, table_file=args.table_file,
+		 num_digits=args.num_digits, rename_deflines=args.rename_deflines, outdir=args.outputdir,
+		 fasta_list=args.fasta_file_list, fasta_file_directory=args.fasta_file_directory)
 

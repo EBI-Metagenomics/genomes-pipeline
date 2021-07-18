@@ -1,6 +1,8 @@
 genomes:
-  path: ../../../input_example/test-one
-  class: Directory
+  - path: ../../../input_example/test-one/GUT_GENOME000465.fa
+    class: File
+  - path: ../../../input_example/test-one/GUT_GENOME001921.fa
+    class: File
 prefix: MGYG
 start_number: 1
 output_filename: names
