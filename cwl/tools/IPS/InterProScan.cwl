@@ -48,6 +48,10 @@ requirements:
     ramMin: 20000
     coresMin: 16
   - class: InlineJavascriptRequirement
+  - class: InitialWorkDirRequirement
+    listing:
+      - entry: $(inputs.databases)
+        entryname: $("/opt/interproscan-5.52-86.0/data") 
 
 hints:
   - class: DockerRequirement
